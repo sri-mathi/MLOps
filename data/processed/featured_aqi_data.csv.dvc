@@ -1,0 +1,5 @@
+outs:
+- md5: 3dba3f123e9da2d251567207e5a9e9d7
+  size: 721872
+  hash: md5
+  path: featured_aqi_data.csv
