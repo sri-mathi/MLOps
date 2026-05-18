@@ -1,0 +1,24 @@
+# Exclude virtual environment
+venv/
+.venv/
+
+# Exclude DVC data, models, cache, and logs
+.dvc/
+data/
+mlruns/
+mlflow.db
+reports/
+
+# Exclude VCS and CI/CD folders
+.git/
+.github/
+.gitignore
+.dvcignore
+
+# Exclude local test suites and documentations
+tests/
+DEVELOPMENT.md
+README.md
+implementation_plan.md
+walkthrough.md
+mlops_learning_guide.md

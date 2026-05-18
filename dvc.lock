@@ -1,0 +1,51 @@
+schema: '2.0'
+stages:
+  ingest:
+    cmd: ./venv/bin/python src/components/ingest_data.py --days 30
+    deps:
+    - path: src/components/ingest_data.py
+      hash: md5
+      md5: db72f50f1196012eb6d0de96a6ebcf78
+      size: 2210
+    outs:
+    - path: data/raw/aqi_data.csv
+      hash: md5
+      md5: d286b55b35982cf5ac09c26052693258
+      size: 118791
+  feature_engineering:
+    cmd: ./venv/bin/python src/components/feature_engineering.py
+    deps:
+    - path: data/raw/aqi_data.csv
+      hash: md5
+      md5: d286b55b35982cf5ac09c26052693258
+      size: 118791
+    - path: src/components/feature_engineering.py
+      hash: md5
+      md5: a4e9e2aca4a31e15ec4b06557b949495
+      size: 2029
+    outs:
+    - path: data/processed/featured_aqi_data.csv
+      hash: md5
+      md5: 0ceabf38d8b32d083a0f0d80b29c3e35
+      size: 697809
+  train:
+    cmd: ./venv/bin/python src/components/train.py --n_estimators 100 
+      --contamination 0.05
+    deps:
+    - path: data/processed/featured_aqi_data.csv
+      hash: md5
+      md5: 0ceabf38d8b32d083a0f0d80b29c3e35
+      size: 697809
+    - path: src/components/train.py
+      hash: md5
+      md5: 42aabec90f6152b289e052a6fb4d39cd
+      size: 3056
+    params:
+      params.yaml:
+        train.contamination: 0.05
+        train.n_estimators: 100
+    outs:
+    - path: models/model.joblib
+      hash: md5
+      md5: 6db4ba4cb953635286186d4c10007164
+      size: 1236344

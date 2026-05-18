@@ -27,7 +27,7 @@ def create_features(df):
     df = df.fillna(0)
     
     # City One-Hot Encoding (optional for Isolation Forest, but helpful for context)
-    df = pd.get_dummies(df, columns=['city'], prefix='city')
+    df = pd.get_dummies(df, columns=['city'], prefix='city', dtype=int)
     
     return df
 

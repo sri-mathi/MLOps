@@ -25,3 +25,4 @@ pyyaml==6.0.1
 # Testing & Linting
 pytest==8.1.1
 ruff==0.3.2
+httpx==0.27.2

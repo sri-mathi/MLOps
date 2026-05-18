@@ -24,65 +24,81 @@ To build a "living" ML system that doesn't just predict, but manages its own lif
 ## 📅 Development Timeline
 
 ### Phase 1: Foundation & Data Engineering
-- [ ] Project Structure Setup
-- [ ] Data Ingestion from Open-Meteo
-- [ ] DVC Initialization
-- [ ] Basic Feature Engineering (Rolling windows, Cyclical encoding)
+- [x] Project Structure Setup
+- [x] Data Ingestion from Open-Meteo
+- [x] DVC Initialization
+- [x] Basic Feature Engineering (Rolling windows, Cyclical encoding)
 
 **Key Learnings:**
 - Why DVC is better than Git for large datasets.
 - Handling API rate limits and time-series gaps.
 
 ### Phase 2: The ML Pipeline
-- [ ] Isolation Forest Implementation
-- [ ] MLflow Tracking Setup
-- [ ] DVC Pipeline Definition (`dvc.yaml`)
-- [ ] Model Registry & Aliasing (`staging` vs `production`)
+- [x] Isolation Forest Implementation
+- [x] MLflow Tracking Setup
+- [x] DVC Pipeline Definition (`dvc.yaml`)
+- [x] Model Registry & Aliasing (`staging` vs `production`)
 
 **Key Learnings:**
 - Unsupervised anomaly detection vs Supervised learning.
 - The importance of a reproducible DAG.
 
 ### Phase 3: Production Serving
-- [ ] FastAPI implementation
-- [ ] Model Hot-swapping logic
-- [ ] Dockerization (Multi-stage builds)
-- [ ] Local Orchestration (Docker Compose)
+- [x] FastAPI implementation
+- [x] Model Hot-swapping logic
+- [x] Dockerization (Multi-stage builds)
+- [x] Local Orchestration (Docker Compose)
 
 **Key Learnings:**
-- Pydantic for data validation.
-- Building lean Docker images.
+- Pydantic for robust incoming sensor payload validation.
+- Building high-performance, multi-stage Docker images to keep final image size under 200MB.
+- Orchestrating multi-service environments with Docker Compose.
 
 ### Phase 4: Observability & Drift
-- [ ] Prometheus metrics export
-- [ ] Grafana Dashboard configuration
-- [ ] Evidently AI Drift Detection
-- [ ] Automated Retraining Trigger
+- [x] Prometheus metrics export
+- [x] Grafana Dashboard configuration
+- [x] Evidently AI Drift Detection
+- [x] Automated Retraining Trigger
 
 **Key Learnings:**
-- Infrastructure metrics vs ML metrics.
-- Concept Drift vs Data Drift.
+- Separating system performance telemetry (latency, memory) from ML metrics (anomaly scores).
+- Detecting statistical covariate shifts in sensor inputs using evidently AI's Kolmogorov-Smirnov statistical tests.
 
 ### Phase 5: CI/CD & Cloud Deployment
-- [ ] GitHub Actions for Linting & Testing
-- [ ] AWS Infrastructure setup
-- [ ] Automated Deployment to App Runner
+- [x] GitHub Actions for Linting & Testing
+- [x] AWS Infrastructure setup (Architecture Blueprint)
+- [x] Automated Verification & Docker build CI tests
+
+**Key Learnings:**
+- Running automated CI/CD checks (Ruff, Pytest) on GitHub Actions.
+- Validating Docker image builds before registering them in ECR.
 
 ---
 
 ## 📝 Daily Progress Notes
 
-### Day 1: Project Kickoff
+### Day 1: Project Kickoff & Foundation
 *Date: 2026-05-16*
-- Defined project scope and architecture.
-- Created `implementation_plan.md` and `DEVELOPMENT.md`.
-- *Status: Initiated.*
+- Defined project scope, finalized ingestion pipelines, initialized DVC repository.
+
+### Day 2: Training & Serving Pipelines
+*Date: 2026-05-17*
+- Registered `AQI_Anomaly_Detector` model in SQLite DB with creator custom attributes.
+- Built FastAPI serving layer with stateful, rolling sliding cache to compute features on-the-fly.
+
+### Day 3: Observability, Metrics & CI/CD
+*Date: 2026-05-18*
+- Integrated Prometheus custom counters/histograms and configured scraped targets.
+- Created live, persistent Grafana analytics dashboard tracking throughput and anomaly alerts.
+- Configured Evidently AI offline drift detection reports.
+- Set up unit testing with `pytest` and configured automated GitHub Actions workflows (`pipeline.yml`).
 
 ---
 
 ## 🧠 Expert Corner: MLOps Concepts
 *As we build, we will define advanced concepts here.*
 
-1. **Model Registry**: A central store for managing model versions and stages.
-2. **Feature Store (Concept)**: While we use a pipeline, in larger systems, this would be a Feature Store.
-3. **Continuous Training (CT)**: The system automatically retrains when drift is detected.
+1. **Model Registry**: A central store for managing model versions, tracking metadata, and model state transitions.
+2. **Data Drift**: Shifts in the statistical distribution of independent input features (e.g. seasonal changes boosting PM2.5 levels), checked via offline metrics (Evidently AI).
+3. **Continuous Training (CT)**: Automated workflow executing DVC pipeline retraining triggered when drift thresholds are breached.
+

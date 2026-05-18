@@ -1,0 +1,20 @@
+cmd: ./venv/bin/python src/components/train.py --n_estimators 100 
+  --contamination 0.05
+deps:
+- path: data/processed/featured_aqi_data.csv
+  hash: md5
+  md5: 441f8854e5ac9628cd48f77c05913691
+  size: 722361
+- path: src/components/train.py
+  hash: md5
+  md5: 42aabec90f6152b289e052a6fb4d39cd
+  size: 3056
+params:
+  params.yaml:
+    train.contamination: 0.05
+    train.n_estimators: 100
+outs:
+- path: models/model.joblib
+  hash: md5
+  md5: 531625ee7a3b08236ac2c75a818fafc2
+  size: 1176776

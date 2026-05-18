@@ -1,0 +1,15 @@
+cmd: ./venv/bin/python src/components/feature_engineering.py
+deps:
+- path: data/raw/aqi_data.csv
+  hash: md5
+  md5: d286b55b35982cf5ac09c26052693258
+  size: 118791
+- path: src/components/feature_engineering.py
+  hash: md5
+  md5: a4e9e2aca4a31e15ec4b06557b949495
+  size: 2029
+outs:
+- path: data/processed/featured_aqi_data.csv
+  hash: md5
+  md5: 0ceabf38d8b32d083a0f0d80b29c3e35
+  size: 697809

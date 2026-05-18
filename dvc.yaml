@@ -1,0 +1,26 @@
+stages:
+  ingest:
+    cmd: ./venv/bin/python src/components/ingest_data.py --days 30
+    deps:
+      - src/components/ingest_data.py
+    outs:
+      - data/raw/aqi_data.csv
+
+  feature_engineering:
+    cmd: ./venv/bin/python src/components/feature_engineering.py
+    deps:
+      - data/raw/aqi_data.csv
+      - src/components/feature_engineering.py
+    outs:
+      - data/processed/featured_aqi_data.csv
+
+  train:
+    cmd: ./venv/bin/python src/components/train.py --n_estimators ${train.n_estimators} --contamination ${train.contamination}
+    deps:
+      - data/processed/featured_aqi_data.csv
+      - src/components/train.py
+    params:
+      - train.n_estimators
+      - train.contamination
+    outs:
+      - models/model.joblib

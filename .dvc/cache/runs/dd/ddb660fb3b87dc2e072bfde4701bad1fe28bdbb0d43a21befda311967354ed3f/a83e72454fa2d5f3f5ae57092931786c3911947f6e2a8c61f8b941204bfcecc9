@@ -1,0 +1,11 @@
+cmd: ./venv/bin/python src/components/ingest_data.py --days 30
+deps:
+- path: src/components/ingest_data.py
+  hash: md5
+  md5: db72f50f1196012eb6d0de96a6ebcf78
+  size: 2210
+outs:
+- path: data/raw/aqi_data.csv
+  hash: md5
+  md5: d286b55b35982cf5ac09c26052693258
+  size: 118791
